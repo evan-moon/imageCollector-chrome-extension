@@ -19,6 +19,6 @@ function getImages(document) {
 }
 
 chrome.extension.sendMessage({ // popup.js로 다시 돌려준다
-    action: "getImages",
+    action: 'getImages',
     source: getImages(document)
 });

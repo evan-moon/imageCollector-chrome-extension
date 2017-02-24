@@ -1,27 +1,25 @@
 'use strict';
 
 chrome.extension.onMessage.addListener((request, sender) => {
-    if (request.action == "getImages") {
+    if (request.action == 'getImages') {
         let images = request.source;
-        console.log(images.length);
-        for(var i = 0; i < images.length; i++) {
-            if(images[i].length < 1) continue;
-
-            let _DOM = document.createElement('li');
-            _DOM.style.backgroundImage = "url("+images[i]+")";
-
-            document.getElementById('target').appendChild(_DOM);
-        }
+        images.forEach((v, i) => {
+            if(v.length < 1) return false;
+            console.log(v);
+            const DOM = document.createElement('li');
+            DOM.style.backgroundImage = 'url(${v})';
+            document.getElementById('target').appendChild(DOM);
+        });
     }
 });
 
 function onWindowLoad() {
     chrome.tabs.executeScript(null, { // 현재 실행중인 웹페이지에 스크립트 주입
-        file: "scripts/contentscript.js"
+        file: 'scripts/contentscript.js'
     }, () => {
-            if (chrome.extension.lastError) {
-                document.body.innerText = 'There was an error injecting script : \n' + chrome.extension.lastError.message;
-            }
-        });
+        if (chrome.extension.lastError) {
+            document.body.innerText = 'There was an error injecting script : ${chrome.extension.lastError.message}';
+        }
+    });
 }
 window.onload = onWindowLoad;
