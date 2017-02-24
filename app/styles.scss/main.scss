@@ -1,4 +1,21 @@
-$padding: 20px;
+$padding: 10px;
+
 body {
-  padding: $padding;
+    min-width: 450px;
+    min-height: 300px;
+    padding: $padding;
+
+    #target {
+        margin: 0 auto;
+        li {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            background: {
+                size: cover;
+                position: 50% 50%;
+            }
+            list-style: none;
+        }
+    }
 }
