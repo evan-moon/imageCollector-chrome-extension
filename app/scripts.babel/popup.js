@@ -4,11 +4,12 @@ chrome.extension.onMessage.addListener((request, sender) => {
     if (request.action == 'getImages') {
         let images = request.source;
         images.forEach((v, i) => {
-            if(v.length < 1) return false;
-            console.log(v);
-            const DOM = document.createElement('li');
-            DOM.style.backgroundImage = 'url(${v})';
-            document.getElementById('target').appendChild(DOM);
+            if(v.length > 0) {
+                console.log(v);
+                const DOM = document.createElement('li');
+                DOM.style.backgroundImage = 'url(' + v + ')';
+                document.getElementById('target').appendChild(DOM);
+            }
         });
     }
 });
