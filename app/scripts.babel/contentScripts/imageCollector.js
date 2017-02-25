@@ -20,7 +20,7 @@
     }
 
     chrome.extension.sendMessage({ // popup.js로 다시 돌려준다
-        action: 'getImagesFromPage',
-        source: getImagesFromPage(document)
+        func: 'getImagesFromPage',
+        data: getImagesFromPage(document)
     });
 })();

@@ -1,0 +1,12 @@
+.btn {
+    background: transparent;
+    border: 2px solid $mine-black-color;
+    text-align: center;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover {
+        border-color: $silver-grey-color;
+        color: $silver-grey-color;
+    }
+}

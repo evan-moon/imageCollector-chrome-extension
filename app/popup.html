@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <!-- build:css styles/popup-vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="bower_components/slick-carousel/slick/slick.css" />
+    <link rel="stylesheet" href="bower_components/slick-carousel/slick/slick-theme.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css styles/main.css -->
@@ -12,13 +14,24 @@
     <title>Mitty Chrome Extension Test</title>
 </head>
 <body>
-    <div class="container">
-        
-    </div>
+    <header>
+        <h4>MITTY TEST EXTENSION v0.1</h4>
+    </header>
+    <div id="container">
 
+        <div id="image-slider">
+            <div class="image-previewer"></div>
+            <ul class="slick-nav"></ul>
+        </div>
+
+    </div>
+    <footer>
+        <div class="btn">SEND TO MITTY</div>
+    </footer>
     <!-- build:js scripts/popup-vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/slick-carousel/slick/slick.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
 
