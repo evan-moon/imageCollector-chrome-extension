@@ -1,26 +1,28 @@
-'use strict';
 
-chrome.extension.onMessage.addListener((request, sender) => {
-    if (request.action == 'getImages') {
-        let images = request.source;
-        images.forEach((v, i) => {
-            if(v.length > 0) {
-                console.log(v);
-                const DOM = document.createElement('li');
-                DOM.style.backgroundImage = 'url(' + v + ')';
-                document.getElementById('target').appendChild(DOM);
+(function() {
+    'use strict';
+
+    chrome.extension.onMessage.addListener((request, sender) => {
+        if (request.action == 'getImagesFromPage') {
+            let images = request.source;
+            images.forEach((v, i) => {
+                if(v.length > 0) {
+                    const DOM = document.createElement('li');
+                    DOM.style.backgroundImage = 'url(' + v + ')';
+                    $('#image-list').append(DOM);
+                }
+            });
+        }
+    });
+
+    function addScriptToPage() { // 현재 실행중인 웹페이지에 스크립트 주입
+        chrome.tabs.executeScript(null, {
+            file: 'scripts/contentScripts/contentscript.js'
+        }, () => {
+            if (chrome.extension.lastError) {
+                document.body.innerText = 'There was an error injecting script : ${chrome.extension.lastError.message}';
             }
         });
     }
-});
-
-function onWindowLoad() {
-    chrome.tabs.executeScript(null, { // 현재 실행중인 웹페이지에 스크립트 주입
-        file: 'scripts/contentscript.js'
-    }, () => {
-        if (chrome.extension.lastError) {
-            document.body.innerText = 'There was an error injecting script : ${chrome.extension.lastError.message}';
-        }
-    });
-}
-window.onload = onWindowLoad;
+    window.onload = addScriptToPage;
+})();
