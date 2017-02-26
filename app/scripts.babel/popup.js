@@ -1,44 +1,64 @@
-
+/* Client */
 (function() {
     'use strict';
 
-    window.onload = __init__();
+    let activeTab;
+    window.onload = getActiveTabInfo().then(res => {
+        activeTab = res[0];
+        console.log('CURRENT ACTIVE TAB -> ', activeTab);
+        __init__();
+    });
+
     function __init__() {
-        addScriptToPage();
+        addScriptToPage(activeTab);
     }
 
 
 
-    // RESPONSER
+    /* RESPONSER */
     chrome.extension.onMessage.addListener((request, sender) => {
-        if (request.func === 'getImagesFromPage') {
+        if (request.func === 'imageCollector') {
             bindImageToDOM(request, sender);
         }
     });
 
 
 
-    // CONTENT SCRIPT
-    function addScriptToPage() { // 현재 실행중인 웹페이지에 스크립트 주입
+    /* CONTENT SCRIPT */
+    function addScriptToPage() {
+        // 현재 실행중인 웹페이지에 스크립트 주입
+        let scriptName = '';
+        if(activeTab.url.indexOf('google') > -1) scriptName = 'googleImagecollector.js';
+        else scriptName = 'imageColålector.js';
+
         chrome.tabs.executeScript(null, {
-            file: 'scripts/contentScripts/imageCollector.js'
+            file: 'scripts/contentScripts/' + scriptName
         }, () => {
             if (chrome.extension.lastError) {
-                document.body.innerText = 'There was an error injecting script : ${chrome.extension.lastError.message}';
+                document.body.innerText = 'There was an error injecting script : ' + chrome.extension.lastError.message;
             }
         });
     }
 
 
 
-    // METHOD
-    function bindImageToDOM(request, sendor) {
-        let images = request.data;
+    /* METHOD */
+    function getActiveTabInfo() {
+        const chromePromise = new ChromePromise();
+        return chromePromise.tabs.query({
+            'active': true,
+            'windowId': chrome.windows.WINDOW_ID_CURRENT
+        });
+    }
 
-        images.forEach((v, i) => {
-            if(v.length > 0) {
+    function bindImageToDOM(request, sendor) {
+        let data = request.data;
+
+        data.forEach((v, i) => {
+            console.log(v, v.thumbnail);
+            if(v.thumbnail) {
                 const DOM = $('<li/>').css({
-                    'background-image': 'url('+v+')'
+                    'background-image': 'url('+ v.thumbnail +')'
                 });
                 $('.slick-nav').append(DOM);
             }

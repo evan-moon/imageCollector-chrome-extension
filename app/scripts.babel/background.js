@@ -1,3 +1,4 @@
+/* Server */
 (function() {
     'use strict';
 

@@ -44,7 +44,7 @@
                 "https://*/*"
             ],
             "js": [
-                "scripts/contentScripts/imageCollector.js"
+                "scripts/contentScripts/default.js"
             ],
             "run_at": "document_end",
             "all_frames": false
