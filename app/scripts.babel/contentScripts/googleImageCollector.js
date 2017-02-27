@@ -22,8 +22,9 @@
             let thumbnail = v.childNodes[0].childNodes[0].src ?
                 v.childNodes[0].childNodes[0].src :
                 decodeURIComponent(temp.imgurl);
+            let isGIF = /(\.gif)/.test(temp.imgurl);
 
-            if(temp.imgurl) {
+            if(temp.imgurl && !isGIF) {
                 images.push({
                     thumbnail,
                     url: decodeURIComponent(temp.imgurl),

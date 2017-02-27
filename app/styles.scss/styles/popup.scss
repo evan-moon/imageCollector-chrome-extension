@@ -23,7 +23,7 @@ html {
                 color: $white-color;
             }
         }
-        #container {
+        #container,#empty-page {
             position: relative;
             margin-top: $header-height;
             width: 100%;
@@ -82,6 +82,11 @@ html {
             .btn {
                 margin: 5px 10px;
             }
+        }
+
+
+        #empty-page {
+            display: none;
         }
     }
 }

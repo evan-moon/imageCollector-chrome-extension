@@ -15,9 +15,15 @@
 
     function __init__() {
         addScriptToPage(activeTab);
+
+        $('#reload-btn').on('click', () => {
+            addScriptToPage();
+        });
+
         $('.btn.next-btn').on('click', () => {
             pagenator('next');
         });
+
         $('.btn.prev-btn').on('click', () => {
             pagenator('prev');
         });
@@ -61,6 +67,12 @@
     }
 
     function bindImageToDOM(request, sendor) {
+        hideEmptyPage();
+        if(request.data.length < 1) {
+            showEmptyPage();
+            return false;
+        }
+
         storedImages = request.data;
         selectedImage = request.data[0];
 
@@ -110,7 +122,7 @@
 
     function pagenator(direction) {
         if(direction === 'next') pageIndex++;
-        else if(direction === 'prev' && pageIndex > 1) pageIndex--;
+        else if(direction === 'prev' && pageIndex > 0) pageIndex--;
         console.log(direction, pageIndex);
 
         const $pages = $('.page');
@@ -118,5 +130,17 @@
             if($(element).data('index') !== pageIndex) $(element).hide();
             else $(element).show();
         });
+    }
+
+    function showEmptyPage() {
+        $('#container').hide();
+        $('#empty-page').show();
+        $('footer').hide();
+    }
+
+    function hideEmptyPage() {
+        $('#container').show();
+        $('#empty-page').hide();
+        $('footer').show();
     }
 })();
