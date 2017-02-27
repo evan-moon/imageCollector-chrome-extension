@@ -22,7 +22,7 @@
             let thumbnail = v.childNodes[0].childNodes[0].src ?
                 v.childNodes[0].childNodes[0].src :
                 decodeURIComponent(temp.imgurl);
-            console.log(thumbnail);
+
             if(temp.imgurl) {
                 images.push({
                     thumbnail,
@@ -35,7 +35,6 @@
             }
         });
 
-        console.log(images);
         return images;
     }
 

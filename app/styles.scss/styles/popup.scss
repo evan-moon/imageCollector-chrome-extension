@@ -5,7 +5,8 @@ html {
         color: $mine-black-color;
     }
     body {
-        min-width: 450px;
+        min-width: 350px;
+        max-width: 450px;
         min-height: 300px;
         header {
             position: fixed;
@@ -25,22 +26,37 @@ html {
         #container {
             position: relative;
             margin-top: $header-height;
-            padding: 20px;
             width: 100%;
             box-sizing: border-box;
 
-            #image-slider {
+            .page {
+                display: none;
+            }
+
+            #image-slider-page {
+                display: block;
                 position: relative;
                 margin: 0 auto;
                 .image-previewer {
+                    width: 100%;
                     height: 300px;
+                    background: {
+                        image: url('https://composingdigitaldiyarchive.files.wordpress.com/2013/09/screen-shot-2013-09-16-at-9-44-39-pm.png?w=487');
+                        position: 50% 50%;
+                    }
+                    .image-wrapper {
+                        height: 300px;
+                    }
+                    img {
+                        margin: 0 auto;
+                        height: 100%;
+                    }
                 }
-                ul {
+                .slick-nav {
                     width: 100%;
                     padding: 10px;
-                    background-color: $clay-blue-color;
+                    background-color: $mine-black-color;
                     li {
-                        display: inline-block;
                         width: 100px;
                         height: 100px;
                         margin: 10px;
@@ -48,7 +64,6 @@ html {
                             size: cover;
                             position: 50% 50%;
                         }
-                        list-style: none;
                         cursor: pointer;
                         transition: 0.3s all ease-in-out;
                         opacity: 0.5;

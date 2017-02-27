@@ -5,6 +5,8 @@
     <!-- build:css styles/popup-vendor.css -->
     <!-- bower:css -->
     <link rel="stylesheet" href="bower_components/slick-carousel/slick/slick.css" />
+    <link rel="stylesheet" href="bower_components/xeicon/xeicon.css" />
+    <link rel="stylesheet" href="bower_components/xeicon/xeicon.min.css" />
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css styles/main.css -->
@@ -18,14 +20,19 @@
     </header>
     <div id="container">
 
-        <div id="image-slider">
+        <div class="page" id="image-slider-page" data-index="0">
             <div class="image-previewer"></div>
             <ul class="slick-nav"></ul>
         </div>
 
+        <div class="page" id="info-page" data-index="1">
+            TEST
+        </div>
+
     </div>
     <footer>
-        <div class="btn">SEND TO MITTY</div>
+        <div class="btn prev-btn">PREV</div>
+        <div class="btn next-btn">NEXT</div>
     </footer>
     <!-- build:js scripts/popup-vendor.js -->
     <!-- bower:js -->

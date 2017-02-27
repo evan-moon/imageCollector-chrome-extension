@@ -2,7 +2,11 @@
 (function() {
     'use strict';
 
-    let activeTab;
+    let activeTab = null;
+    let storedImages = [];
+    let selectedImage = null;
+    let pageIndex = 0;
+
     window.onload = getActiveTabInfo().then(res => {
         activeTab = res[0];
         console.log('CURRENT ACTIVE TAB -> ', activeTab);
@@ -11,6 +15,12 @@
 
     function __init__() {
         addScriptToPage(activeTab);
+        $('.btn.next-btn').on('click', () => {
+            pagenator('next');
+        });
+        $('.btn.prev-btn').on('click', () => {
+            pagenator('prev');
+        });
     }
 
 
@@ -26,7 +36,6 @@
 
     /* CONTENT SCRIPT */
     function addScriptToPage() {
-        // 현재 실행중인 웹페이지에 스크립트 주입
         let scriptName = '';
         if(activeTab.url.indexOf('google') > -1) scriptName = 'googleImagecollector.js';
         else scriptName = 'imageColålector.js';
@@ -52,32 +61,62 @@
     }
 
     function bindImageToDOM(request, sendor) {
+        storedImages = request.data;
+        selectedImage = request.data[0];
+
         let data = request.data;
+        const $imagePreviewElement = $('.image-previewer');
+        const $sliderElement = $('.slick-nav');
 
         data.forEach((v, i) => {
-            console.log(v, v.thumbnail);
             if(v.thumbnail) {
-                const DOM = $('<li/>').css({
+                const NAV_DOM = $('<li/>').css({
                     'background-image': 'url('+ v.thumbnail +')'
                 });
-                $('.slick-nav').append(DOM);
+                const PREVIEW_DOM = $('<div/>',{ class: 'image-wrapper' });
+                const PREVIEW_IMG_DOM = $('<img/>', { src: v.url });
+
+                PREVIEW_DOM.append(PREVIEW_IMG_DOM);
+                $imagePreviewElement.append(PREVIEW_DOM);
+                $sliderElement.append(NAV_DOM);
             }
         });
 
-        $('.image-previewer').slick({
+        $imagePreviewElement.slick({
             slidesToShow: 1,
             slidesToScroll: 1,
             arrows: false,
             fade: true,
-            asNavFor: '.slick-nav'
+            asNavFor: '.slick-nav',
+            dots: false
         });
 
-        $('.slick-nav').slick({
-            slidesToShow: 5,
+        $sliderElement.slick({
+            slidesToShow: 3,
             slidesToScroll: 1,
             asNavFor: '.image-previewer',
             centerMode: true,
-            focusOnSelect: true
+            cssEase: 'ease-in-out',
+            easing: 'ease-in-out',
+            focusOnSelect: true,
+            dots: false,
+            lazyLoad: 'ondemand'
+        }).on('afterChange', changeSelectedImg);
+    }
+
+    function changeSelectedImg(event, slick, currentSlide) {
+        selectedImage = storedImages[currentSlide];
+    }
+
+    function pagenator(direction) {
+        if(direction === 'next') pageIndex++;
+        else if(direction === 'prev' && pageIndex > 1) pageIndex--;
+        console.log(direction, pageIndex);
+
+        const $pages = $('.page');
+        $pages.each((index, element) => {
+            if($(element).data('index') !== pageIndex) $(element).hide();
+            else $(element).show();
         });
     }
 })();
