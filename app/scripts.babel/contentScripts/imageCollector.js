@@ -9,32 +9,30 @@
         let images = [];
         let url = location.href;
         let documentImages = [...document.images];
-        let limit = {
+        const limit = {
             min: {
                 w: 100,
                 h: 100
-            },
-            max: {
-                w: 2000,
-                h: 2000
             }
         };
 
         documentImages.forEach((v, i) => {
             let width = v.clientWidth,
                 height = v.clientHeight;
-            const wRange = width > limit.min.w && width <= limit.max.w;
-            const hRange = height > limit.min.h && height <= limit.max.h;
-            if(wRange && hRange) images.push({
+            let isGIF = /(\.gif|data\:image\/gif\;)/.test(v.src);
+            const wRange = width > limit.min.w;
+            const hRange = height > limit.min.h;
+
+            if(wRange && hRange && !isGIF) images.push({
+                thumbnail: decodeURIComponent(v.src),
                 url: decodeURIComponent(v.src),
                 origin_w: width,
                 origin_h: height,
                 type: 'default'
             });
-            console.log(width,height, v);
         });
 
-        console.log('URL -> ', location.href);
+        return images;
     }
 
     chrome.extension.sendMessage({ // popup.js로 다시 돌려준다

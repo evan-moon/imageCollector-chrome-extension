@@ -44,7 +44,7 @@
     function addScriptToPage() {
         let scriptName = '';
         if(activeTab.url.indexOf('google') > -1) scriptName = 'googleImagecollector.js';
-        else scriptName = 'imageColålector.js';
+        else scriptName = 'imageCollector.js';
 
         chrome.tabs.executeScript(null, {
             file: 'scripts/contentScripts/' + scriptName
